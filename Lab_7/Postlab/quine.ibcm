@@ -1,0 +1,20 @@
+C005 000 	jump around vars
+0000 001 	i WRONG
+0001 002    one
+0013 003    n (size of code)
+3000 004    ldit
+3003 005	load n		//start of loop
+6014 006    n - i
+E013 007    exit if (i > n) PUT IN END
+D013 008
+C00A 009
+3004 00A    load ldit
+5014 00B    add i
+400D 00C    store in doit
+300D 00D    doit  		WRONG
+1800 00E    printH
+3014 00F	load i      //i+=1 
+5002 010	i + 1
+4014 011	store i 	  
+C005 012	jump to start of loop
+0000 013 	halt

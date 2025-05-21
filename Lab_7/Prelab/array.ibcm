@@ -1,0 +1,63 @@
+C00A 000		 jmp 	  start	   skip around the vars (jump to line 00A)
+0000 001   i     dw       0        int i (index of array)
+0000 002   n     dw       0        int n (array size)
+0000 003   zero  dw       0        zero
+0001 004   one   dw       1        one
+4000 005   stit  dw       4000     store instructions
+3000 006   ldit  dw       3000     load instructions
+0000 007   a     dw       0        array base
+0050 008   base  dw       0050     base value
+0000 009
+1000 00A   start readH             read n
+4002 00B         store    n        store n
+3003 00C		 load     zero	   load zero
+4001 00D		 store    i        i = 0
+3008 00E         load     base     load base value
+4007 00F		 store    a        a = 0050
+3002 010   loop  load     n        if(i >= n), goto print
+6001 011         sub      i        n - i
+D01F 012         jmpe              jump to printing
+E01F 013		 jmpl	   
+C015 014                           skip line
+3005 015    loop load     stit     load store instructions
+5001 016		 add 	  i        add i
+5007 017		 add 	  a        add a
+401A 018         store    doit     plant instrucitons into code
+1000 019         readH             read a[i]
+0000 01A   doit  dw
+3001 01B		 load     i        load i
+5004 01C	     add      one      i += 1
+4001 01D		 store    i 	   store i
+C010 01E		 jmp      loop     goto loop
+3003 01F         load     zero	   load zero
+4001 020 	     store    i        i = 0
+3002 021   loop1 load     n        if(i >= n), printing forward
+6001 022         sub      i        n - i
+D02F 023		 jmpe              jump to printing backwards
+E02F 024		 jmpl
+3006 025    loop load     ldit     load load instructions
+5001 026		 add 	  i        add i
+5007 027		 add 	  a        add a
+4029 028         store    doit     plant instrucitons into code
+0000 029    doit dw
+1800 02A	     printH
+3001 02B		 load     i        load i
+5004 02C	     add      one      i += 1
+4001 02D	     store    i 	   store i
+C021 02E		 jmp      loop1	   jump to printing forward loop
+3002 02F		 load     n
+6004 030 	     sub      1        n - 1
+4001 031	     store	  i 	   i = n - 1
+3001 032	loop load 	  i 	   load i
+E040 033		 jmpl              if(i < 0)
+3006 034         load     ldit     load load instructions
+5001 035		 add 	  i        add i
+5007 036		 add 	  a        add a
+4038 037         store    doit     plant instructions into code
+0000 038   doit  dw
+1800 039	     printH
+3001 03A         load     i        load i
+6004 03B		 sub     1        i -= 1
+4001 03C   loop	 store    i        store i
+C032 03D         jmp
+0000 03E         halt

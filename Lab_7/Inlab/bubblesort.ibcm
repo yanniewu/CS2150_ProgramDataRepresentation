@@ -1,0 +1,115 @@
+C00E 000		jmp      start	  skip around the vars
+0000 001 		dw       0        int i
+0000 002 		dw       0        int j
+0000 003        dw       0        int n (array size)
+0000 004        dw       0        zero
+0001 005        dw       1        one
+000A 006        dw       10       ten ???
+0000 007        dw       0        int temp
+3000 008        dw       3000     ldit
+4000 009        dw       4000     stit
+0000 00A        dw       0        a, array base
+0080 00B        dw       0050     base value
+0000 00C	    dw                int curr
+0000 00D        dw			      int prev
+3006 00E  start load     10       acc = 10; start of filling in array
+4003 00F        store    n        n = 10
+3004 010        load     zero     acc = 0
+4001 011        store    i 		  i = 0
+300B 012        load     base value  acc = 0050
+400A 013		store    a        a = 0050
+3003 014  loop1 load     n        if(i >= n), goto sort
+6001 015        sub      i        n - i
+D025 016        jmpe              jump to sort  
+E025 017		jmpl
+3009 018        load     stit     acc = stit
+5001 019		add 	 i        acc = stit + i 
+500A 01A	    add 	 a        acc = stit + i + a
+401D 01B        store    doit     plant instructions into code
+1000 01C        readH             read a[i]
+0000 01D  doit  dw                
+3001 01E		load     i        acc = i
+5005 01F	    add      one      acc = i + 1
+4001 020	    store    i 	      i = i + 1
+C014 021  end1	jmp      loop1    goto start of loop1
+0000 022
+0000 023
+0000 024
+3004 025  start load     zero  	  acc = 0; start of sorting array
+4001 026  		store    i 		  i = 0
+3003 027  loop2 load     n        if (i >= n); goto printing 
+6001 028		sub		 i        n - i
+D062 029        jmpe			  jump to printing
+E062 02A		jumpl    
+3006 02B        load     ten      acc = 10
+6005 02C		sub		 one 	  acc = 10 - 1
+4002 02D		store    j        j = 10 - 1      
+3002 02E  loop3 load     j        if (i >= j); exit to loop2   
+6001 02F	    sub      i        j - i
+D05D 030        jmpe              exit to loop2
+E05D 031	    jmpl
+3008 032        load     ldit     acc = ldit        //get current
+5002 033        add		 j        acc = ldit + j
+500A 034        add      a        acc = ldit + j + a
+4036 035	    store    
+0000 036        load     current
+400C 037        store    current          
+C03D 038        skip space
+0000 039	
+0000 03A
+0000 03B
+0000 03C
+3008 03D      	load	ldit	  acc = ldit 			//get previous
+5002 03E        add		 j        acc = ldit + j
+500A 03F        add      a        acc = ldit + j + a
+6005 040		sub 	 one	  acc = ldit + j + a - 1
+4042 041        store
+0000 042        load     prev     
+400D 043		store    prev     store in prev       
+C048 044		skip space
+0000 045	
+0000 046
+0000 047
+300D 048        load 	 prev    if(prev < curr)  //if statement
+600C 049		sub      curr    prev - curr
+D059 04A        jmpe             exit to loop3
+E059 04B	    jmpl
+3009 04C        load     stit   //swapping
+5002 04D        add		 j        
+500A 04E        add      a  
+4051 04F        store    store down 2 lines
+300D 050        load     prev
+0000 051        ~store							//end of if statement
+3009 052        load     stit
+5002 053		add		 j
+500A 054 		add 	 a
+6005 055 		sub 	 1
+4058 056        store    store down 2 lines
+300C 057        load     current
+0000 058        ~store   current   			//end of if statement
+3002 059        load     j 		  acc = j
+6005 05A        sub		 one      acc = j-1
+4002 05B        store    j 		  j = j - 1
+C02E 05C   end3 jmp               goto start of loop 3 
+3001 05D		load     i        acc = i
+5005 05E	    add      one      acc = i + 1
+4001 05F	    store    i 	      i = i + 1
+C027 060   end2 jmp       loop2   gotto start of loop2 
+C062 061		skip line
+3004 062         load     zero	   load zero  //printing
+4001 063 	     store    i        i = 0
+3003 064   loop4 load     n        if(i >= n)
+6001 065         sub      i        n - i
+D072 066		 jmpe              jump to halt
+E072 067		 jmpl
+3008 068         load     ldit     load load instructions
+5001 069		 add 	  i        add i
+500A 06A		 add 	  a        add a
+406C 06B         store    doit     plant instrucitons into code
+0000 06C    doit dw
+1800 06D	     printH
+3001 06E		 load     i        load i
+5005 06F	     add      one      i += 1
+4001 070	     store    i 	   store i
+C064 071		 jmp      loop1	   jump to start of loop4
+0000 072       

@@ -1,0 +1,37 @@
+C00A 000		 jmp 	 start	  skip around the vars (jump to line 00A)
+0000 001   x     dw      0        int x
+0000 002   y     dw      0        int y
+0000 003   z     dw      0        int z
+0001 004   one   dw      1        unused?
+0000 005   zero  dw      0
+0000 006   s     dw      0        int s
+0000 007 
+0000 008  		
+0000 009 		
+1000 00A   start readH            read x
+4001 00B         store   x 		  stores x at 001
+1000 00C         readH            read y
+4002 00D         store   y 		  stores y at 002
+1000 00E         readH            read z
+4003 00F         store   z        stores z at 003
+3005 010         load    zero     s = 0
+4006 011         store   s        stores 0 at 006
+3006 012    sum  load    s        s += x
+5001 013         add     x        
+4006 014         store   s
+3006 015         load    s        s += y
+5002 016         add     y
+4006 017         store   s
+3006 018         load    s        s += z
+5003 019         add     z
+4006 01A         store   s
+3006 01B 		 load    s 
+1800 01C		 printH  print s
+D01F 01D         jmpe    s       if s==0
+C00A 01E         jmp     s       if s!=0  
+3001 01F 		 load 	 x
+1800 020         printH	 print x
+3002 021 		 load 	 y
+1800 022         printH	 print y
+3003 023 		 load 	 z
+1800 024         printH	 print z
